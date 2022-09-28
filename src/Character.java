@@ -1,17 +1,19 @@
-
+import  java.util.Random;
 
 public class Character {
 
     private String name;
-    private int healthPool=15;
+    private int healthPool=150;
+    // each character has 2 moves
     private Move moveOne=new Move();
     private Move moveTwo=new Move();
+    private Random rand=new Random();
 
     public String getMoveOne() {
-        return "Move: "+moveOne.getName()+", Damage: "+moveOne.getDamage();
+        return "Move: "+moveOne.getName()+", Base Damage: "+moveOne.getDamage();
     }
     public String getMoveTwo() {
-        return "Move: "+moveTwo.getName()+", Damage: "+moveTwo.getDamage();
+        return "Move: "+moveTwo.getName()+", Base Damage: "+moveTwo.getDamage();
     }
 
     public Character(String name, Move moveOne,Move moveTwo){
@@ -42,6 +44,13 @@ public class Character {
     }
     public void setHealthPool(int healthPool) {
         this.healthPool = healthPool;
+    }
+
+    public int getMoveOneDMG(){
+        return this.moveOne.getDamage()+ rand.nextInt(20);
+    }
+    public int getMoveTwoDMG(){
+        return this.moveTwo.getDamage()+ rand.nextInt(10);
     }
     public void displayCharacter(){
         System.out.println("Character: "+getName());
