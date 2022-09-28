@@ -3,14 +3,14 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Character Dofus=new Character("Dofus",new Move("Kick",10),new Move("Jab",20));
-        Character Tak=new Character("Tak",new Move("Slap",10),new Move("Claw",20));
+        Character dofus=new Character("Dofus",new Move("Kick",12),new Move("Jab",10)
+                                        ,new Move("Explosion",50));
+        Character tak=new Character("Tak",new Move("Slap",12),new Move("Claw",10)
+                                        ,new Move("Nova",50));
 
-        Player playerOne=new Player("Erik",Dofus);
-        Player playerTwo=new Player("Fred",Tak);
-        int healthChar1=Dofus.getHealthPool();
-        int healthChar2=Tak.getHealthPool();
-
+        //Player playerOne=new Player("Erik",dofus);
+        //Player playerTwo=new Player("Fred",tak);
+        int bersekLevel=30;
         boolean invalidChoice=true;
         Scanner sc=new Scanner(System.in);
         int selectMove;
@@ -20,67 +20,100 @@ public class Main {
             do
             {
                 System.out.println("Player One select a move: \n" +
-                        "1: "+Dofus.getMoveOne()+'\n'+
-                        "2: "+Dofus.getMoveTwo()+"\n Choice: ");
+                        "1: "+dofus.getMoveOneName()+'\n'+
+                        "2: "+dofus.getMoveTwoName()+"\n" +
+                        "3, Special: "+dofus.getSpecialMoveName()+"\n" +
+                        "Choice: ");
                 selectMove=sc.nextInt();
                 sc.nextLine();
-                if (selectMove==1 || selectMove==2)
+                if (selectMove>0 && selectMove<4)
                     invalidChoice=false;
             }
             while(invalidChoice);
             invalidChoice=true;
             if(selectMove==1){
-                damage= Dofus.getMoveOneDMG();
-                System.out.println("Player One hit for "+damage+" points");
-                healthChar2-= damage;
+                damage= dofus.getMoveOneDMG();
+                System.out.println("Player One hit for "+damage+" points with "+dofus.getMoveOneName());
+                tak.setCurrentHealth(tak.getCurrentHealth()-damage);
+                dofus.setEnergyLevel(dofus.getEnergyLevel()+10);
+                System.out.println(dofus.getName()+" now has "+dofus.getEnergyLevel()+" energy");
             }
-            else {
-                damage= Dofus.getMoveTwoDMG();
-                System.out.println("Player One hit for "+damage+" points");
-                healthChar2-= damage;
+            else if(selectMove==2) {
+                damage= dofus.getMoveTwoDMG();
+                System.out.println("Player One hit for "+damage+" points with "+dofus.getMoveTwoName());
+                tak.setCurrentHealth(tak.getCurrentHealth()-damage);
+                dofus.setEnergyLevel(dofus.getEnergyLevel()+10);
+                System.out.println(dofus.getName()+" now has "+dofus.getEnergyLevel()+" energy");
             }
-            if (healthChar2<=0){
-                System.out.println(Tak.getName()+" is dead\n" +
-                        "HP: "+healthChar2+"\n" +
+            else if (dofus.getEnergyLevel()==50){
+                damage= dofus.getMoveSPDMG();
+                System.out.println("Player One hit for "+damage+" points with "+dofus.getSpecialMove());
+                tak.setCurrentHealth(tak.getCurrentHealth()-damage);
+            }
+            else System.out.println("Not enough energy, you missed");
+
+            if (tak.getCurrentHealth()<=0){
+                System.out.println(tak.getName()+" is dead\n" +
+                        "HP: "+tak.getCurrentHealth()+"\n" +
                         "Player One wins");
                 break;
             }
             else{
-                System.out.println(Tak.getName()+" is still standing\n" +
-                        "HP: "+healthChar2+"\n");
+                System.out.println(tak.getName()+" is still standing\n" +
+                        "HP: "+tak.getCurrentHealth());
+                if(tak.getCurrentHealth()<=bersekLevel && tak.getCurrentHealth()>0){
+                    System.out.println(tak.getName()+" is now Berserk, damage is increased");
+                    tak=new BerserkerCharacter(tak);
+                }
             }
-
             do
             {
                 System.out.println("Player Two select a move: \n" +
-                        "1: "+Tak.getMoveOne()+'\n'+
-                        "2: "+Tak.getMoveTwo()+"\n Choice: ");
+                        "1: "+tak.getMoveOneName()+'\n'+
+                        "2: "+tak.getMoveTwoName()+"\n "+
+                        "3, Special: "+tak.getSpecialMove()+"\n" +
+                        "Choice: ");
                 selectMove=sc.nextInt();
                 sc.nextLine();
-                if (selectMove>0 && selectMove<3)
+                if (selectMove>0 && selectMove<4)
                     invalidChoice=false;
             }
             while(invalidChoice);
             invalidChoice=true;
             if(selectMove==1){
-                damage= Tak.getMoveOneDMG();
+                damage= tak.getMoveOneDMG();
                 System.out.println("Player Two hit for "+damage+" points");
-                healthChar1-= damage;
+                dofus.setCurrentHealth(dofus.getCurrentHealth()-damage);
+                tak.setEnergyLevel(tak.getEnergyLevel()+10);
+                System.out.println(tak.getName()+" now has "+tak.getEnergyLevel()+" energy");
             }
-            else {
-                damage= Tak.getMoveTwoDMG();
+            else if(selectMove==2){
+                damage= tak.getMoveTwoDMG();
                 System.out.println("Player Two hit for "+damage+" points");
-                healthChar1-= damage;
+                dofus.setCurrentHealth(dofus.getCurrentHealth()-damage);
+                tak.setEnergyLevel(tak.getEnergyLevel()+10);
+                System.out.println(tak.getName()+" now has "+tak.getEnergyLevel()+" energy");
             }
-            if (healthChar1<=0){
-                System.out.println(Dofus.getName()+" is dead\n" +
-                        "HP: "+healthChar1+"\n" +
+            else if (tak.getEnergyLevel()==50){
+                damage= tak.getMoveSPDMG();
+                System.out.println("Player One hit for "+damage+" points with "+tak.getSpecialMove());
+                dofus.setCurrentHealth(dofus.getCurrentHealth()-damage);
+            }
+            else System.out.println("Not enough energy, you missed");
+
+            if (dofus.getCurrentHealth()<=0){
+                System.out.println(dofus.getName()+" is dead\n" +
+                        "HP: "+dofus.getCurrentHealth()+"\n" +
                         "Player Two wins");
                 break;
             }
             else{
-                System.out.println(Dofus.getName()+" is still standing\n" +
-                        "HP: "+healthChar1+"\n");
+                System.out.println(dofus.getName()+" is still standing\n" +
+                        "HP: "+dofus.getCurrentHealth()+"\n");
+                if(dofus.getCurrentHealth()<=bersekLevel && dofus.getCurrentHealth()>0) {
+                    System.out.println(dofus.getName() + " is now Berserk, damage is increased");
+                    dofus = new BerserkerCharacter(dofus);
+                }
             }
         }
         while (true);
