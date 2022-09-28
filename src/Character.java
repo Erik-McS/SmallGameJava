@@ -10,8 +10,11 @@ public class Character{
     private Move specialMove=new Move();
     private Random rand=new Random();
     private int energyLevel;
+    private int berserkLevel;
+    private int energyIncrease;
 
     public Character(String name, Move moveOne,Move moveTwo,Move specialMove){
+        // assigning all values
         try{
             setName(name);
             this.moveOne=moveOne;
@@ -20,13 +23,17 @@ public class Character{
             this.energyLevel=0;
             this.currentHealth=150;
             this.healthPool=150;
+            this.berserkLevel=30;
+            this.energyIncrease=10;
         }
         catch(InputValidationException e){System.out.println("Error: "+e.getMessage());}
     }
     public void setName(String name) throws InputValidationException{
+        // checking that the name string is not empty
         if (name.equals("")){
             throw new InputValidationException("Invalid Character Name: Null");
         }
+        // name needs to start with an upper, 10 chars max
         else if(name.matches("(\\p{Upper})(\\p{Lower}){1,10}")){
             this.name=name;
         }
@@ -47,14 +54,24 @@ public class Character{
     public String getSpecialMoveName() {return specialMove.getName();}
     public Move getSpecialMove() {return specialMove;}
     public void setSpecialMove(Move specialMove) {this.specialMove = specialMove;}
+    public int getEnergyIncrease() {return energyIncrease;}
+    // public void setEnergyIncrease(int energyIncrease) {this.energyIncrease = energyIncrease;}
+
+    // functions that returns the damage. each use the base damage of the Move object
+    // adding a random value based on the move type.
     public int getMoveOneDMG(){return this.moveOne.getDamage()+ rand.nextInt(3);}
     public int getMoveTwoDMG(){
         return this.moveTwo.getDamage()+ rand.nextInt(30);
     }
     public int getMoveSPDMG(){return specialMove.getDamage();}
+    public int getBerserkLevel() {return berserkLevel;}
+    //public void setBerserkLevel(int berserkLevel) {this.berserkLevel = berserkLevel;}
+
+    // Display the character info
     public void displayCharacter(){
         System.out.println("Character: "+getName());
-        System.out.println("Move 1: "+getMoveOne());
-        System.out.println("Move 2: "+getMoveTwo());
+        System.out.println("Move 1: "+getMoveOneName());
+        System.out.println("Move 2: "+getMoveTwoName());
+        System.out.println("Special move: "+getSpecialMoveName());
     }
 }

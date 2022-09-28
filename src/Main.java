@@ -3,20 +3,21 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // Creating two characters
         Character dofus=new Character("Dofus",new Move("Kick",12),new Move("Jab",10)
                                         ,new Move("Explosion",50));
         Character tak=new Character("Tak",new Move("Slap",12),new Move("Claw",10)
                                         ,new Move("Nova",50));
 
-        //Player playerOne=new Player("Erik",dofus);
-        //Player playerTwo=new Player("Fred",tak);
-        int bersekLevel=30;
         boolean invalidChoice=true;
         Scanner sc=new Scanner(System.in);
         int selectMove;
+        // Main loop, while run until one of the character drops to 0 or less
         do
         {
+            // will store the damage value
             int damage;
+            // Loop to get player 1 selection
             do
             {
                 System.out.println("Player One select a move: \n" +
@@ -25,24 +26,32 @@ public class Main {
                         "3, Special: "+dofus.getSpecialMoveName()+"\n" +
                         "Choice: ");
                 selectMove=sc.nextInt();
+                // need the getLine() as a workaround for the nextInt()
                 sc.nextLine();
+                // check if choice is either 1,2,3
                 if (selectMove>0 && selectMove<4)
                     invalidChoice=false;
             }
             while(invalidChoice);
+            // reseting for the next loop
             invalidChoice=true;
+
             if(selectMove==1){
+                // Move 1 selected
+                // get the damage
                 damage= dofus.getMoveOneDMG();
                 System.out.println("Player One hit for "+damage+" points with "+dofus.getMoveOneName());
+                // deduct the damage from the currentHealth value
                 tak.setCurrentHealth(tak.getCurrentHealth()-damage);
-                dofus.setEnergyLevel(dofus.getEnergyLevel()+10);
+                // increment the energy level by 10 ( as defined in the character class)
+                dofus.setEnergyLevel(dofus.getEnergyLevel()+dofus.getEnergyIncrease());
                 System.out.println(dofus.getName()+" now has "+dofus.getEnergyLevel()+" energy");
             }
             else if(selectMove==2) {
                 damage= dofus.getMoveTwoDMG();
                 System.out.println("Player One hit for "+damage+" points with "+dofus.getMoveTwoName());
                 tak.setCurrentHealth(tak.getCurrentHealth()-damage);
-                dofus.setEnergyLevel(dofus.getEnergyLevel()+10);
+                dofus.setEnergyLevel(dofus.getEnergyLevel()+dofus.getEnergyIncrease());
                 System.out.println(dofus.getName()+" now has "+dofus.getEnergyLevel()+" energy");
             }
             else if (dofus.getEnergyLevel()==50){
@@ -61,7 +70,7 @@ public class Main {
             else{
                 System.out.println(tak.getName()+" is still standing\n" +
                         "HP: "+tak.getCurrentHealth());
-                if(tak.getCurrentHealth()<=bersekLevel && tak.getCurrentHealth()>0){
+                if(tak.getCurrentHealth()<=tak.getBerserkLevel() && tak.getCurrentHealth()>0){
                     System.out.println(tak.getName()+" is now Berserk, damage is increased");
                     tak=new BerserkerCharacter(tak);
                 }
@@ -84,14 +93,14 @@ public class Main {
                 damage= tak.getMoveOneDMG();
                 System.out.println("Player Two hit for "+damage+" points");
                 dofus.setCurrentHealth(dofus.getCurrentHealth()-damage);
-                tak.setEnergyLevel(tak.getEnergyLevel()+10);
+                tak.setEnergyLevel(tak.getEnergyLevel()+tak.getEnergyIncrease());
                 System.out.println(tak.getName()+" now has "+tak.getEnergyLevel()+" energy");
             }
             else if(selectMove==2){
                 damage= tak.getMoveTwoDMG();
                 System.out.println("Player Two hit for "+damage+" points");
                 dofus.setCurrentHealth(dofus.getCurrentHealth()-damage);
-                tak.setEnergyLevel(tak.getEnergyLevel()+10);
+                tak.setEnergyLevel(tak.getEnergyLevel()+tak.getEnergyIncrease());
                 System.out.println(tak.getName()+" now has "+tak.getEnergyLevel()+" energy");
             }
             else if (tak.getEnergyLevel()==50){
@@ -110,7 +119,7 @@ public class Main {
             else{
                 System.out.println(dofus.getName()+" is still standing\n" +
                         "HP: "+dofus.getCurrentHealth()+"\n");
-                if(dofus.getCurrentHealth()<=bersekLevel && dofus.getCurrentHealth()>0) {
+                if(dofus.getCurrentHealth()<=dofus.getBerserkLevel() && dofus.getCurrentHealth()>0) {
                     System.out.println(dofus.getName() + " is now Berserk, damage is increased");
                     dofus = new BerserkerCharacter(dofus);
                 }
