@@ -28,6 +28,17 @@ public class Character{
         }
         catch(InputValidationException e){System.out.println("Error: "+e.getMessage());}
     }
+    public Character(){
+        this.name="Default Character";
+        this.energyLevel=0;
+        this.currentHealth=150;
+        this.healthPool=150;
+        this.berserkLevel=30;
+        this.energyIncrease=10;
+        this.moveOne=new Move("Kick",12);
+        this.moveTwo=new Move("Jab",10);
+        this.specialMove=new Move("Explosion",50);
+    }
     public void setName(String name) throws InputValidationException{
         // checking that the name string is not empty
         if (name.equals("")){
@@ -47,6 +58,13 @@ public class Character{
     public void setEnergyLevel(int energyLevel) {this.energyLevel = energyLevel;}
     public int getCurrentHealth() {return currentHealth;}
     public void setCurrentHealth(int currentHealth) {this.currentHealth = currentHealth;}
+    public void setHealthPool(int healthPool) throws InputValidationException{
+        if (healthPool>0 && healthPool<=200){
+            this.healthPool=healthPool;
+            this.setCurrentHealth(healthPool);
+        }
+        else throw new InputValidationException("HealthPool Value out of bound");
+    }
     public Move getMoveOne() {return moveOne;}
     public void setMoveOne(Move moveOne) {this.moveOne = moveOne;}
     public Move getMoveTwo() {return moveTwo;}
@@ -55,8 +73,12 @@ public class Character{
     public Move getSpecialMove() {return specialMove;}
     public void setSpecialMove(Move specialMove) {this.specialMove = specialMove;}
     public int getEnergyIncrease() {return energyIncrease;}
-    // public void setEnergyIncrease(int energyIncrease) {this.energyIncrease = energyIncrease;}
+    public void setEnergyIncrease(int energyIncrease) throws InputValidationException{
 
+        if (energyIncrease>0 && energyIncrease<20)
+            this.energyIncrease = energyIncrease;
+        else throw new InputValidationException("Energy Increase Value out of bounds");
+    }
     // functions that returns the damage. each use the base damage of the Move object
     // adding a random value based on the move type.
     public int getMoveOneDMG(){return this.moveOne.getDamage()+ rand.nextInt(3);}
@@ -65,13 +87,19 @@ public class Character{
     }
     public int getMoveSPDMG(){return specialMove.getDamage();}
     public int getBerserkLevel() {return berserkLevel;}
-    //public void setBerserkLevel(int berserkLevel) {this.berserkLevel = berserkLevel;}
-
+    public void setBerserkLevel(int berserkLevel) throws InputValidationException{
+        if(berserkLevel>0 && berserkLevel<=40)
+            this.berserkLevel = berserkLevel;
+        else throw new InputValidationException("Berserker Level out of bounds");
+    }
     // Display the character info
     public void displayCharacter(){
         System.out.println("Character: "+getName());
         System.out.println("Move 1: "+getMoveOneName());
         System.out.println("Move 2: "+getMoveTwoName());
         System.out.println("Special move: "+getSpecialMoveName());
+        System.out.println("Health Pool: "+getHealthPool());
+        System.out.println("Berserker Level: "+getBerserkLevel());
+        System.out.println("Energy Increase: "+getEnergyIncrease());
     }
 }

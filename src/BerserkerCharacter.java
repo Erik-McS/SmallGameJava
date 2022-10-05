@@ -14,5 +14,4 @@ public class BerserkerCharacter extends Character{
         return (this.character.getMoveTwo().getDamage()+ rand.nextInt(30))*multiplier;
     }
     public int getMoveSPDMG(){return this.character.getSpecialMove().getDamage()*multiplier;}
-
 }
