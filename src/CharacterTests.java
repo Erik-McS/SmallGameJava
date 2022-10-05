@@ -8,6 +8,27 @@ public class CharacterTests {
       //  Dofus.displayCharacter();
       //  Tak.displayCharacter();
 
+        try{
+            Character Dof=new CharacterBuilder()
+                    .setName("Erik")
+                    .setBerserkerLevel(23)
+                    .setHealthPool(200)
+                    .setMoveOne(new Move("Elbow",13))
+                    .BuildCharacter();
+            Dof.displayCharacter();
+
+
+            Character Tak=new CharacterBuilder()
+                    .setName("Tak")
+                    .setHealthPool(140)
+                    .setBerserkerLevel(40)
+                    .BuildCharacter();
+            Tak.displayCharacter();
+        }
+        catch (InputValidationException e){
+            System.out.println(e.getMessage());
+        }
+
 
     }
 }
