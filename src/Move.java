@@ -1,6 +1,9 @@
+import java.util.Random;
+
 public class Move {
     private String name;
     private int damage;
+    Random rand=new Random();
 
     public Move(String name, int damage){
         try{
@@ -24,9 +27,10 @@ public class Move {
         }
         else {throw new InputValidationException("Invalid Move Name");}
     }
-    public int getDamage() {
-        return damage;
+    public int getDamage(int range) {
+        return damage+rand.nextInt(range);
     }
+    public int getDamage(){return damage;}
     public void setDamage(int damage) throws InputValidationException{
         if (damage>=10 && damage<=60){
             this.damage=damage;
