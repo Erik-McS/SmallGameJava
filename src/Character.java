@@ -1,4 +1,3 @@
-import  java.util.Random;
 
 public class Character{
 
@@ -8,7 +7,6 @@ public class Character{
     private Move moveOne=new Move();
     private Move moveTwo=new Move();
     private Move specialMove=new Move();
-    private Random rand=new Random();
     private int energyLevel;
     private int berserkLevel;
     private int energyIncrease;
@@ -59,7 +57,7 @@ public class Character{
     public int getCurrentHealth() {return currentHealth;}
     public void setCurrentHealth(int currentHealth) {this.currentHealth = currentHealth;}
     public void setHealthPool(int healthPool) throws InputValidationException{
-        if (healthPool>0 && healthPool<=200){
+        if (healthPool>0 && healthPool<=20000){
             this.healthPool=healthPool;
             this.setCurrentHealth(healthPool);
         }
@@ -81,16 +79,27 @@ public class Character{
     }
     // functions that returns the damage. each use the base damage of the Move object
     // adding a random value based on the move type.
-    public int getMoveOneDMG(){return this.moveOne.getDamage()+ rand.nextInt(3);}
-    public int getMoveTwoDMG(){
-        return this.moveTwo.getDamage()+ rand.nextInt(30);
+    public int getMoveOneDMG(){
+        if(getCurrentHealth()<getBerserkLevel()){
+            this.moveOne=new BerserkerMove(moveOne);
+        }
+        return this.moveOne.getDamage(3);
     }
-    public int getMoveSPDMG(){return specialMove.getDamage();}
+    public int getMoveTwoDMG(){
+        if(getCurrentHealth()<getBerserkLevel()){
+            this.moveTwo=new BerserkerMove(moveTwo);
+        }
+        return this.moveTwo.getDamage(30);
+    }
+    public int getMoveSPDMG(){
+        if(getCurrentHealth()<getBerserkLevel())
+            this.specialMove=new BerserkerMove(specialMove);
+        return specialMove.getDamage();}
     public int getBerserkLevel() {return berserkLevel;}
     public void setBerserkLevel(int berserkLevel) throws InputValidationException{
         if(berserkLevel>0 && berserkLevel<=40)
             this.berserkLevel = berserkLevel;
-        else throw new InputValidationException("Berserker Level out of bounds");
+        else throw new InputValidationException("Berserk Level out of bounds");
     }
     // Display the character info
     public void displayCharacter(){
@@ -99,7 +108,7 @@ public class Character{
         System.out.println("Move 2: "+getMoveTwoName());
         System.out.println("Special move: "+getSpecialMoveName());
         System.out.println("Health Pool: "+getHealthPool());
-        System.out.println("Berserker Level: "+getBerserkLevel());
+        System.out.println("Berserk Level: "+getBerserkLevel());
         System.out.println("Energy Increase: "+getEnergyIncrease());
     }
 }

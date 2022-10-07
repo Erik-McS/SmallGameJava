@@ -29,6 +29,5 @@ public class CharacterTests {
             System.out.println(e.getMessage());
         }
 
-
     }
 }
