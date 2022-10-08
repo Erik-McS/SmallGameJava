@@ -3,15 +3,20 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            // Creating two characters
-            Character dofus= new CharacterBuilder()
-                    .setName("Dofus")
-                    .setMoveOne(new Move("Kick",12))
-                    .setMoveTwo(new Move("Jab",10))
-                    .setSpecialMove(new Move("Explosion",50))
-                    .setBerserkerLevel(30)
-                    .BuildCharacter();
+            // Character2 class uses a nested builder class
+            // constructor is private using the builder is mandatory
+            // the following will not work:
+            //Character2 hh=new Character2();
+            Character2 dofus= new Character2.characterBuilder()
+                    .name("Dofus")
+                    .moveOne(new Move("Kick",12))
+                    .moveTwo(new Move("Jab",10))
+                    .specialMove(new Move("Explosion",50))
+                    .berserkLevel(40)
+                    .CBuilder();
 
+            // class use an external builder.
+            // no limitations on using the class constructors
             Character tak = new CharacterBuilder()
                     .setName("Tak")
                     .setMoveOne(new Move("Slap", 12))
