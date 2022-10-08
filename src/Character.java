@@ -111,4 +111,30 @@ public class Character{
         System.out.println("Berserk Level: "+getBerserkLevel());
         System.out.println("Energy Increase: "+getEnergyIncrease());
     }
+
+    public static class characterBuilder{
+
+        private String name;
+        private int healthPool;
+        private int currentHealth;
+        private Move moveOne=new Move();
+        private Move moveTwo=new Move();
+        private Move specialMove=new Move();
+        private int energyLevel;
+        private int berserkLevel;
+        private int energyIncrease;
+        public characterBuilder name(String name) throws InputValidationException{
+            // checking that the name string is not empty
+            if (name.equals("")){
+                throw new InputValidationException("Invalid Character Name: Null");
+            }
+            // name needs to start with an upper, 10 chars max
+            else if(name.matches("(\\p{Upper})(\\p{Lower}){1,10}")){
+                this.name=name;
+                return this;
+            }
+            else {throw new InputValidationException("Invalid Character Name:"+name);}
+        }
+
+    }
 }
