@@ -14,7 +14,7 @@ public class BerserkerMove extends Move {
         return "Berserker "+move.getName();
     }
     public int getDamage(int range) {
-        return (move.getDamage()+rand.nextInt(range))*3;
+        return (move.getDamage()+rand.nextInt(range))*multiplier;
     }
-    public int getDamage(){return (move.getDamage())*3;}
+    public int getDamage(){return (move.getDamage())*multiplier;}
 }

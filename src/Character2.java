@@ -71,7 +71,6 @@ public class Character2 {
                 ", energyIncrease=" + energyIncrease +
                 '}';
     }
-
     public static class characterBuilder{
         private String name;
         private int healthPool;
